@@ -21,13 +21,19 @@ function [ ] = hist_search( ref_img, dest_path )
     waitforbuttonpress;
     
     % Search for the best RGB match.
-    image_files = dir([dest_path '*.jpg']);
+    image_files = getAllFiles(dest_path);
     best_diff = -1;
     best_match = 'none';
     for i = 1 : length(image_files)
         % Read test image. Make sure it is RGB.
-        img_name = image_files(i).name;
-        img = imread([dest_path img_name]);
+        img_name = image_files{i};
+        if strcmp(img_name, ref_img) || ~strEndsWith(img_name, 'jpg')
+            continue;
+        end
+        disp(img_name);
+        img = imread(img_name);
+        %img_name = image_files(i).name;
+        %img = imread([dest_path img_name]);
         [~, ~, num_channels] = size(img);
         if num_channels ~= 3
             continue;
@@ -42,7 +48,7 @@ function [ ] = hist_search( ref_img, dest_path )
     end
     
     % Read the matched image and get its RGB histograms.
-    match = imread([dest_path best_match]);
+    match = imread(best_match);
     match_hist = get_histogram(match, N);
         
     disp(best_match);
