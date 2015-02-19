@@ -1,5 +1,7 @@
 function [ ] = hist_search( ref_img, dest_path )
 %SEARCH Search for the best matching image using RGB histogram similarity.
+%   TODO - use get_histograms to load all files and compute histograms
+%   first, then search in-memory for the top N similar images.
 
     % Read in the reference image.
     ref = imread(ref_img);
